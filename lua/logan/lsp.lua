@@ -1,4 +1,11 @@
 local keymap = vim.keymap -- for conciseness
+
+-- niveau de log LSP explicite (WARN est deja le defaut de nvim).
+-- NB : ca ne limite PAS la taille de lsp.log -- nvim ecrit le stderr des
+-- serveurs en ERROR quel que soit ce niveau. Le vrai garde-fou est
+-- l'option "--log=error" passee a clangd dans plugins/lsp/mason.lua.
+vim.lsp.log.set_level(vim.log.levels.WARN)
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)

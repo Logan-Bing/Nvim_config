@@ -49,6 +49,12 @@ return {
       })
     end
 
+    -- clangd ecrit tout son bavardage sur stderr, et nvim log stderr en ERROR
+    -- quel que soit le log level -> lsp.log grossissait sans fin (1.1 Go).
+    vim.lsp.config("clangd", {
+      cmd = { "clangd", "--log=error" },
+    })
+
     vim.lsp.enable(servers)
   end,
 }
