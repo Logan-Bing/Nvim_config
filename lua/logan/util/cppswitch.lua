@@ -1,6 +1,12 @@
 -- Bascule entre le fichier source et son header correspondant (Person.cpp <-> Person.hpp)
--- 1) demande a clangd (precis, connait la vraie paire du projet)
--- 2) sinon, cherche sur le disque : meme dossier, puis src/ <-> include/
+-- 1) cherche sur le disque : meme dossier, puis src/ <-> include/ (deterministe,
+--    ne peut proposer qu'un fichier de meme nom dans un dossier frere)
+-- 2) sinon, demande a clangd (utile quand la paire ne suit pas la convention de nom)
+--
+-- NB : clangd passe en second volontairement. Sans compile_commands.json il
+-- retombe sur son index et, pour un header qui contient une forward declaration
+-- (ex. `class AForm;` dans Bureaucrat.hpp), il renvoie le fichier de la classe
+-- declaree au lieu du .cpp correspondant.
 
 local M = {}
 
@@ -107,7 +113,7 @@ local function resolve_target()
     return nil
   end
 
-  local target = ask_clangd(bufnr) or find_on_disk(path)
+  local target = find_on_disk(path) or ask_clangd(bufnr)
 
   if not target then
     vim.notify(

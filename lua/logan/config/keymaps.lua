@@ -35,6 +35,9 @@ keymap("n", "<C-j>", "<C-w>j")
 keymap("n", "<C-k>", "<C-w>k")
 keymap("n", "<leader>h", "<C-w>h")
 
+-- zoom : fenetre courante en plein ecran, re-appuyer restaure la disposition
+keymap("n", "<leader>z", function() Snacks.zen.zoom() end, { desc = "Zoom fenetre (toggle)" })
+
 -- Tree
 keymap("n", "<leader>e","<cmd>NvimTreeOpen<CR>")
 

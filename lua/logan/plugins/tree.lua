@@ -12,6 +12,13 @@ return {
   end,
 
   config = function()
+    -- devicons ne connait pas l'extension .tpp -> on reprend l'icone des .hpp
+    local devicons = require("nvim-web-devicons")
+    local hpp_icon, hpp_color = devicons.get_icon_color("x.hpp", "hpp")
+    devicons.set_icon({
+      tpp = { icon = hpp_icon, color = hpp_color, name = "Tpp" },
+    })
+
     require("nvim-tree").setup({
       sort = {
         sorter = "case_sensitive",
